@@ -15,16 +15,16 @@ navPanelCheckboxes.forEach(function (checkbox) {
 
 // корзина
 const openCartBtn = document.getElementById("open-cart-button");
-const modalCart = document.getElementById("order-cart");
-const closeBtn = document.getElementById("cart-close-btn");
+const modalCartWindow = document.getElementById("order-cart");
+const closeCartBtn = document.getElementById("cart-close-btn");
 
 openCartBtn.addEventListener("click", () => {
-    modalCart.style.display = "flex";
+    modalCartWindow.style.display = "flex";
     document.body.style.overflow = "hidden";
 });
 
-closeBtn.addEventListener("click", () => {
-    modalCart.style.display = "none";
+closeCartBtn.addEventListener("click", () => {
+    modalCartWindow.style.display = "none";
     document.body.style.overflow = "auto";
 });
 // end корзина
