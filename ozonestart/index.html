@@ -40,7 +40,7 @@
 							<button></button>
 						</div>
 					</div>
-					<a href="#" id="cart">
+					<a href="#" id="open-cart-button">
 						<span class="counter">0</span>
 						<span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 								<path fill="currentColor" fill-rule="nonzero"
@@ -89,7 +89,7 @@
 				</div>
 				<div class="col-12 col-lg-9 col-xl-10">
 					<div class="container">
-						<div class="row no-gutters goods">
+						<div class="row no-gutters goods" id="goods">
 							<!-- КАРТОЧКИ ТОВАРОВ -->
 							<div class="col-12 col-md-6 col-lg-4 col-xl-3">
 								<div class="card">
@@ -100,7 +100,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">33990 ₽</div>
 										<h5 class="card-title">Игровая приставка Sony PlayStation 4 Pro</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -114,7 +114,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">16499 ₽</div>
 										<h5 class="card-title">Игровая приставка Sony PlayStation 3 Super Slim</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -127,7 +127,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">39990 ₽</div>
 										<h5 class="card-title">Игровая приставка Xbox One X</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -141,7 +141,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">23411 ₽</div>
 										<h5 class="card-title">Игровая приставка Xbox One S</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -154,7 +154,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">24751 ₽</div>
 										<h5 class="card-title">Игровая приставка Nintendo Switch</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -168,7 +168,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">3624 ₽</div>
 										<h5 class="card-title">Игровая приставка Sega Retro Genesis HD</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -182,7 +182,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">1551 ₽</div>
 										<h5 class="card-title">Игровая приставка Dendy Junior</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -195,7 +195,7 @@
 									<div class="card-body justify-content-between">
 										<div class="card-price">10445 ₽</div>
 										<h5 class="card-title">Игровая приставка Sony PlayStation Classic</h5>
-										<button class="btn btn-primary">В корзину</button>
+										<button class="btn btn-primary add-to-cart-button">В корзину</button>
 									</div>
 								</div>
 							</div>
@@ -210,7 +210,7 @@
 
 	</main>
 
-	<div class="cart">
+	<div class="cart" id="order-cart">
 		<div class="cart-body">
 			<div class="cart-title">Корзина</div>
 			<div class="cart-total">Общая сумма: <span>0</span> руб</div>
@@ -221,11 +221,13 @@
 				</div>
 			</div>
 			<button class="btn btn-primary cart-confirm">Оформить заказ</button>
-			<div class="cart-close">
+			<div class="cart-close" id="cart-close-btn">
 
 			</div>
 		</div>
 	</div>
+
+	<script src="./src/index.js"></script>
 </body>
 
 </html>
