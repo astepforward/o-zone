@@ -70,16 +70,16 @@ function addCart() {
         cartTotal.textContent = sum;
 
         if (cartCards.length !== 0) {
-            cartEmpty.remove();
+            cartEmpty.style.display = "none";
         } else {
-            cartWrapper.appendChild(cartEmpty);
+            cartEmpty.style.display = "block";
         }
     }
 }
 // end работа с корзиной
 
-// фильтр акции
-function actionPage() {
+// фильтрация
+function addFiltering() {
     const cards = document.querySelectorAll("#goods .card"),
         discountCheckbox = document.getElementById("discount-checkbox"),
         min = document.getElementById("min"),
@@ -87,54 +87,68 @@ function actionPage() {
         search = document.querySelector(".search-wrapper_input"),
         searchBtn = document.querySelector(".search-btn");
 
-    // фильтр по акции        
-    discountCheckbox.addEventListener("click", () => {
-        cards.forEach(card => {
-            if (discountCheckbox.checked) {
-                if (!card.querySelector(".card-sale")) {
-                    card.parentNode.style.display = "none";
-                }
-            } else {
-                card.parentNode.style.display = "block";
-            }
-        });
-    });
-
-    // фильтр по цене
-    function filterPrice() {
-        cards.forEach(card => {
+    // фильтр с учётом акции, цены и названия
+    function filterCards() {
+        // предикат фильтра по акции
+        function filterByDiscount(card) {
+            return !discountCheckbox.checked || card.querySelector(".card-sale");
+        }
+    
+        // предикат фильтра по цене
+        function filterByPrice(card) {
             const cardPrice = card.querySelector(".card-price"),
-                price = parseFloat(cardPrice.textContent);
-                
-            if ((!min.value || min.value <= price) &&
-                (!max.value || price < max.value)) {
-                card.parentNode.style.display = "block";
-            } else {
-                card.parentNode.style.display = "none";
-            }
+            price = parseFloat(cardPrice.textContent);
+            
+            // условие с поддержкой пустых значений
+            return (!min.value || min.value <= price) &&
+                   (!max.value || price < max.value);
+        }
+        
+        // предикат фильтра по названию (поиска)
+        function filterByTitle(card) {
+            const title = card.querySelector(".card-title");
+            return searchText.test(title.textContent);
+        }
 
+        // скрываем все товары
+        cards.forEach(card => {
+            card.parentNode.style.display = "none";
+        });
+
+        // отфильтровываем товары, которые подходят по условиям всех фильтров
+        const searchText = new RegExp(search.value.trim(), "i");
+
+        const cardsArray = Array.from(cards);
+        const filteredCards = cardsArray
+            .filter(filterByDiscount)
+            .filter(filterByPrice)
+            .filter(filterByTitle);
+
+        // отображаем такие товары
+        filteredCards.forEach(card => {
+            card.parentNode.style.display = "block";
         });
     }
-    
-    min.addEventListener("change", filterPrice);
-    max.addEventListener("change", filterPrice);
 
-    // поиск
-    searchBtn.addEventListener("click", () => {
-        const searchText = new RegExp(search.value.trim(), "i");
-        cards.forEach(card => {
-            const title = card.querySelector(".card-title");
-            if (searchText.test(title.textContent)) {
-                card.parentNode.style.display = "block";
-            } else {
-                card.parentNode.style.display = "none";
-            }
-        });
+    // добавление фильтра по акции
+    discountCheckbox.addEventListener("click", filterCards);
+
+    // добавление фильтра по цене
+    min.addEventListener("change", filterCards);
+    max.addEventListener("change", filterCards);
+
+    // добавление фильтра по названию (поиска)
+    searchBtn.addEventListener("click", filterCards);
+    search.addEventListener("keyup", event => {
+        event.preventDefault();
+        if (event.keyCode === 13) { // Enter
+            filterCards();
+        }
     });
 }
-// end фильтр акции
+// end фильтрация
 
 toggleCart();
 toggleCheckbox();
 addCart();
-actionPage();
+addFiltering();
