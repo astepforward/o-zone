@@ -80,55 +80,11 @@ function addCart() {
 
 // фильтрация
 function addFiltering() {
-    const cards = document.querySelectorAll("#goods .card"),
-        discountCheckbox = document.getElementById("discount-checkbox"),
+    const discountCheckbox = document.getElementById("discount-checkbox"),
         min = document.getElementById("min"),
         max = document.getElementById("max"),
         search = document.querySelector(".search-wrapper_input"),
         searchBtn = document.querySelector(".search-btn");
-
-    // фильтр с учётом акции, цены и названия
-    function filterCards() {
-        // предикат фильтра по акции
-        function filterByDiscount(card) {
-            return !discountCheckbox.checked || card.querySelector(".card-sale");
-        }
-    
-        // предикат фильтра по цене
-        function filterByPrice(card) {
-            const cardPrice = card.querySelector(".card-price"),
-            price = parseFloat(cardPrice.textContent);
-            
-            // условие с поддержкой пустых значений
-            return (!min.value || min.value <= price) &&
-                   (!max.value || price <= max.value);
-        }
-        
-        // предикат фильтра по названию (поиска)
-        function filterByTitle(card) {
-            const title = card.querySelector(".card-title");
-            return searchText.test(title.textContent);
-        }
-
-        // скрываем все товары
-        cards.forEach(card => {
-            card.parentNode.style.display = "none";
-        });
-
-        // отфильтровываем товары, которые подходят по условиям всех фильтров
-        const searchText = new RegExp(search.value.trim(), "i");
-
-        const cardsArray = Array.from(cards);
-        const filteredCards = cardsArray
-            .filter(filterByDiscount)
-            .filter(filterByPrice)
-            .filter(filterByTitle);
-
-        // отображаем такие товары
-        filteredCards.forEach(card => {
-            card.parentNode.style.display = "block";
-        });
-    }
 
     // добавление фильтра по акции
     discountCheckbox.addEventListener("click", filterCards);
@@ -144,6 +100,61 @@ function addFiltering() {
         if (event.keyCode === 13) { // Enter
             filterCards();
         }
+    });
+}
+
+// фильтр с учётом акции, цены и названия
+function filterCards() {
+    const cards = document.querySelectorAll("#goods .card"),
+        discountCheckbox = document.getElementById("discount-checkbox"),
+        min = document.getElementById("min"),
+        max = document.getElementById("max"),
+        search = document.querySelector(".search-wrapper_input");
+    const categoryText = sessionStorage.getItem("Category");
+
+    // предикат фильтра по акции
+    function filterByDiscount(card) {
+        return !discountCheckbox.checked || card.querySelector(".card-sale");
+    }
+
+    // предикат фильтра по цене
+    function filterByPrice(card) {
+        const cardPrice = card.querySelector(".card-price"),
+        price = parseFloat(cardPrice.textContent);
+        
+        // условие с поддержкой пустых значений
+        return (!min.value || min.value <= price) &&
+               (!max.value || price <= max.value);
+    }
+    
+    // предикат фильтра по названию (поиска)
+    function filterByTitle(card) {
+        const title = card.querySelector(".card-title");
+        return searchText.test(title.textContent);
+    }
+
+    function filterByCategory(card) {
+        return categoryText === "Default" || card.dataset.category === categoryText;
+    }
+
+    // скрываем все товары
+    cards.forEach(card => {
+        card.parentNode.style.display = "none";
+    });
+
+    // отфильтровываем товары, которые подходят по условиям всех фильтров
+    const searchText = new RegExp(search.value.trim(), "i");
+
+    const cardsArray = Array.from(cards);
+    const filteredCards = cardsArray
+        .filter(filterByDiscount)
+        .filter(filterByPrice)
+        .filter(filterByTitle)
+        .filter(filterByCategory);
+
+    // отображаем такие товары
+    filteredCards.forEach(card => {
+        card.parentNode.style.display = "block";
     });
 }
 // end фильтрация
@@ -191,6 +202,7 @@ function renderCards(data) {
 }
 // end получение данных с сервера
 
+// работа с каталогом
 function renderCatalog() {
     const cards = document.querySelectorAll("#goods .card"),
         catalogList = document.getElementById("catalog-list"),
@@ -216,17 +228,14 @@ function renderCatalog() {
         }
 
         if (event.target.tagName === "LI") {
-            cards.forEach(card => {
-                if (card.dataset.category === event.target.textContent) {
-                    card.parentNode.style.display = "block";
-                } else {
-                    card.parentNode.style.display = "none";
-                }
-            });
+            sessionStorage.setItem("Category", event.target.textContent);
+            filterCards();
         }
     });
 
+    sessionStorage.setItem("Category", "Default");
 }
+// end работа с каталогом
 
 getData().then(data => {
     renderCards(data);
