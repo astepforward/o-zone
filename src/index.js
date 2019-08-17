@@ -4,13 +4,8 @@ import renderCards from "./modules/renderCards";        //вывод карто�
 import toggleCheckbox from "./modules/toggleCheckbox";  //чекбокс
 import toggleCart from "./modules/toggleCart";          //корзина
 import addCart from "./modules/addCart";                //работа с корзиной
-import addFiltering from "./modules/addFiltering";
+import addFiltering from "./modules/addFiltering";      //фильтрация
 import renderCatalog from "./modules/renderCatalog";    //работа с каталогом
-
-
-// >>>фильтрация
-// фильтр с учётом акции, цены и названия
-// <<<end фильтрация
 
 (async function() {
     const db = await getData();

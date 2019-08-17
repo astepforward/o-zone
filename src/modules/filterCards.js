@@ -1,3 +1,4 @@
+//фильтр с учётом акции, цены и названия
 export default function filterCards() {
     const cards = document.querySelectorAll("#goods .card"),
         discountCheckbox = document.getElementById("discount-checkbox"),
