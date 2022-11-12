@@ -21,6 +21,6 @@
   "homepage": "https://github.com/AlexShaagoff/o-zone-js-workshop#readme",
   "devDependencies": {
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.12"
   }
 }
